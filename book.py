@@ -59,16 +59,16 @@ class Book1(object):
 	def cell_value(self,row,col):
 		return self.sheet.cell_value(row,col)
 
-# Book2 used for writing data with existing sheet template
+# Book2 used for writing data with existing sheet template,not support .xlsm extension
 class Book2(object):
 	"""docstring for Book2"""
-	def __init__(self, old_excle, new_excel):
-		self.old_excle = old_excle
-		self.new_excel = new_excel
+	def __init__(self, old_excle_pth, new_excel_pth):
+		self.old_excle_pth = old_excle_pth
+		self.new_excel_pth = new_excel_pth
 		self.formatting_info = True
 
 	def copy(self, old_sheet_index, new_sheet_index):
-		old_workbook = xlrd.open_workbook(self.old_excle, self.formatting_info)
+		old_workbook = xlrd.open_workbook(self.old_excle_pth, formatting_info = True)
 		# sheet
 		target_sheet = old_workbook.sheet_by_index(old_sheet_index)
 
@@ -79,6 +79,7 @@ class Book2(object):
 		new_sheet.show_headers = False
 		new_sheet.header_str = b''
 		new_sheet.footer_str = b''
+
 		self.book = new_excel
 		self.sheet = new_sheet
 		return self.sheet
@@ -87,5 +88,4 @@ class Book2(object):
 		self.sheet.write(row, col, value, style)
 
 	def save(self):
-		self.book.save(self.new_excel)					
-
+		self.book.save(self.new_excel_pth)	
